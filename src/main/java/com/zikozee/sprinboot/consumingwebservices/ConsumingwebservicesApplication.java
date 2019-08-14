@@ -30,11 +30,11 @@ public class ConsumingwebservicesApplication {
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate){
         return args -> {
-            //FOR SINGLE
+            //FOR SINGLE: Logging to console
             User user = restTemplate.
                     getForObject("https://jsonplaceholder.typicode.com/users/1", User.class);
             log.info(user.toString());
-            //FOR All
+            //FOR All : Logging to console
             ResponseEntity<List<User>> response = restTemplate.exchange(
                     "https://jsonplaceholder.typicode.com/users/",
                     HttpMethod.GET,
