@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
     List<User> userList();
+    List<User> alternativeUserList();
     User user(int userId);
     List<Address> address();
     Address userAddress(int userId);

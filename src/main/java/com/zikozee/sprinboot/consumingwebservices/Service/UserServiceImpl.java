@@ -3,6 +3,7 @@ package com.zikozee.sprinboot.consumingwebservices.Service;
 import com.zikozee.sprinboot.consumingwebservices.ConsumingwebservicesApplication;
 import com.zikozee.sprinboot.consumingwebservices.Entity.Address;
 import com.zikozee.sprinboot.consumingwebservices.Entity.User;
+import com.zikozee.sprinboot.consumingwebservices.Entity.UserList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,21 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> userList(){
         ResponseEntity<List<User>> response = restTemplate.exchange(
-                "https://jsonplaceholder.typicode.com/users/",
+                "https://jsonplaceholder.typicode.com/users",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<User>>(){});
         List<User> users = response.getBody();
+        return users;
+    }
+
+    @Override
+    public List<User> alternativeUserList() {
+       //Some APIs will return a top-level object that contains the list of employees instead of returning the list directly.
+        UserList response = restTemplate.getForObject(
+                "https://jsonplaceholder.typicode.com/users",
+                UserList.class);
+        List<User> users = response.getUsers();
         return users;
     }
 

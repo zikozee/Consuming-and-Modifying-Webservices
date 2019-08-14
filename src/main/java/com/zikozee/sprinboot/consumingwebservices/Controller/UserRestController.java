@@ -21,9 +21,10 @@ public class UserRestController {
     public String getUsersList(){
 
         return "List:==>>" + userService.userList().toString();
+        //return "List:==>>" + userService.alternativeUserList().toString();
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public String getUser(@PathVariable int userId){
         if(userId >= userService.userList().size() || userId<= 0){
             throw new UserNotFoundException("Student id not found -  " + userId);

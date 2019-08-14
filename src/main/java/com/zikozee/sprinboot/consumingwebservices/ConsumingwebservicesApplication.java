@@ -18,6 +18,7 @@ import java.util.List;
 @SpringBootApplication
 public class ConsumingwebservicesApplication {
     private static final Logger log = LoggerFactory.getLogger(ConsumingwebservicesApplication.class);
+
     public static void main(String[] args) {
         SpringApplication.run(ConsumingwebservicesApplication.class, args);
     }
