@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        // secures all REST endpoints under "/api/customers"
+        // secures all REST endpoints under "/users"
         http.authorizeRequests()
                 .antMatchers("/users/**").authenticated()
                 .and()
