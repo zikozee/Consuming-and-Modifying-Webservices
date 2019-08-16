@@ -1,11 +1,13 @@
 package com.zikozee.sprinboot.consumingwebservices.Controller;
 
+import com.zikozee.sprinboot.consumingwebservices.Entity.Address;
+import com.zikozee.sprinboot.consumingwebservices.Entity.User;
 import com.zikozee.sprinboot.consumingwebservices.Service.UserService;
 import com.zikozee.sprinboot.consumingwebservices.globalHandling.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserRestController {
@@ -13,37 +15,62 @@ public class UserRestController {
     private UserService userService;
 
     @Autowired
-    public UserRestController(UserService theuserService){
-        userService = theuserService;
+    public UserRestController(UserService theUserService){
+        userService = theUserService;
     }
 
     @GetMapping("/users")
-    public String getUsersList(){
+    public List<User> getUsersList(){
 
-        return "List:==>>" + userService.userList().toString();
+        return userService.getUserList();
         //return "List:==>>" + userService.alternativeUserList().toString();
     }
 
     @GetMapping("/users/{userId}")
-    public String getUser(@PathVariable int userId){
-        if(userId >= userService.userList().size() || userId<= 0){
+    public User getUser(@PathVariable int userId){
+        if(userId >= userService.getUserList().size() || userId<= 0){
             throw new UserNotFoundException("Student id not found -  " + userId);
         }
-        return "User==>" + userService.user(userId);
+        return userService.getUser(userId);
     }
 
     @GetMapping("/address")
-    public String getUserAddress(){
-        return "User==>" + userService.address();
+    public List<Address> getUserAddress(){
+        return userService.getAddressList();
     }
 
     @GetMapping("/address/{userId}")
-    public String getUserAddress(@PathVariable int userId){
-        if(userId >= userService.userList().size() || userId<= 0){
+    public Address getUserAddress(@PathVariable int userId){
+        if(userId >= userService.getUserList().size() || userId<= 0){
             throw new UserNotFoundException("Student id not found -  " + userId);
         }
-        return "User==>" + userService.userAddress(userId);
+        return userService.getUserAddress(userId);
     }
 
-    //You Can Extend As you wish
+    @PostMapping("/users")
+    public User AddUser(User user){
+        //also just in case they pass an id in JSON ... set id to 0
+        // this is to force  a save of new item  ... instead of update
+        user.setId(0);
+
+        userService.saveUser(user);
+
+        return user;
+    }
+
+    @PutMapping("/users")
+    public User Update(User user){
+
+        userService.saveUser(user);
+
+        return user;
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public String Delete(@PathVariable int userId){
+        userService.deleteUser(userId);
+
+        return "user with id "+ userId + " was deleted successfully";
+    }
+
 }
