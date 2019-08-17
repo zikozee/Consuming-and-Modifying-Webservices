@@ -28,6 +28,8 @@ public class ConsumingwebservicesApplication {
         return builder.build();
     }
 
+    //For Commandline logging as name implies
+    //Kick started before main app
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate){
         return args -> {
